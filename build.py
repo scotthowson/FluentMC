@@ -3,7 +3,7 @@ import json, sys, os, hashlib, shutil, zipfile, urllib.request, urllib.parse, co
 cache, out, inst = map(os.path.abspath, sys.argv[1:4])
 os.makedirs(cache, exist_ok=True)
 MC, LOADER, INSTALLER = "26.3", "0.20.0", "1.1.2"
-NAME, VER = "FluentMC", "1.0.3"
+NAME, VER = "FluentMC", "1.0.4"
 
 CLIENT = """sodium iris sodium-extra reeses-sodium-options immediatelyfast entityculling moreculling badoptimizations
 dynamic-fps continuity lambdynamiclights lambdabettergrass modmenu placeholder-api xaeros-minimap xaeros-world-map
@@ -18,7 +18,7 @@ naturalist resourceful-lib friends-and-foes lithostitched terralith nullscape st
 towns-and-towers dungeons-and-taverns hopo-better-mineshaft hopo-better-ruined-portals hopo-better-underwater-ruins
 moogs-structure-lib mes-moogs-end-structures formations formations-overworld formations-nether lootr polymer universal-graves
 trade-cycling veinminer fallingtree carry-on easy-anvils easy-magic leaves-be-gone jei mezzconfig jade appleskin clumps prickle
-enchantment-descriptions shulkerboxtooltip simple-voice-chat ping-wheel spark distanthorizons
+enchantment-descriptions shulkerboxtooltip ping-wheel spark distanthorizons
 shogi natures-compass explorers-compass crafting-tweaks iceberg diagonal-fences diagonal-walls diagonal-windows visual-workbench easy-shulker-boxes
 trashslot armor-statues debugify""".split()
 SERVER = ["servercore", "chunky", "alternate-current", "ksyxis", "netherportalfix", "tabtps", "ledger"]
@@ -87,9 +87,7 @@ OPTS = {"renderDistance": "16", "simulationDistance": "10", "entityDistanceScali
 open(os.path.join(client, "options.txt"), "w").write("".join(f"{k}:{v}\n" for k, v in OPTS.items()))
 
 # server files
-os.makedirs(os.path.join(server, "config", "voicechat"), exist_ok=True)
-# port=-1 makes voice chat share the Minecraft port (TCP+UDP), so Pelican needs a single allocation
-open(os.path.join(server, "config", "voicechat", "voicechat-server.properties"), "w").write("port=-1\n")
+os.makedirs(os.path.join(server, "config"), exist_ok=True)
 launcher = f"fabric-server-mc.{MC}-loader.{LOADER}-launcher.{INSTALLER}.jar"
 open(os.path.join(server, launcher), "wb").write(urllib.request.urlopen(
     f"https://meta.fabricmc.net/v2/versions/loader/{MC}/{LOADER}/{INSTALLER}/server/jar").read())
@@ -124,7 +122,7 @@ open(os.path.join(server, "README.txt"), "w").write(f"""{NAME} {VER} server (Min
 
 # .mrpack
 index = {"formatVersion": 1, "game": "minecraft", "versionId": VER, "name": NAME,
-         "summary": f"Fabric {MC}: Sodium/Iris + Distant Horizons, Complementary shaders, Waystones, Farmer's Delight, Terralith, structures, voice chat.",
+         "summary": f"Fabric {MC}: Sodium/Iris + Distant Horizons, Complementary shaders, Waystones, Farmer's Delight, Terralith, structures, building QoL.",
          "files": [{"path": f"{m['dir']}/{m['file']['filename']}", "hashes": {"sha1": m["file"]["hashes"]["sha1"], "sha512": m["file"]["hashes"]["sha512"]},
                     "env": {"client": m["client"], "server": m["server"]}, "downloads": [m["file"]["url"]], "fileSize": m["file"]["size"]} for m in mods],
          "dependencies": {"minecraft": MC, "fabric-loader": LOADER}}

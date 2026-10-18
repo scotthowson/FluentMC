@@ -1,6 +1,6 @@
 # Hosting a FluentMC server
 
-Requirements: Java 25 (GraalVM or any JDK 25), 6 GB RAM, one open port (TCP + UDP, default 25565). Voice chat rides on the same port.
+Requirements: Java 25 (GraalVM or any JDK 25), 6 GB RAM, one open port (TCP + UDP, default 25565).
 
 ## Pelican / Pterodactyl
 
@@ -33,7 +33,6 @@ sed -i 's/eula=false/eula=true/' eula.txt   # only if you agree to https://aka.m
 | | `max-tick-time=-1` | the watchdog would kill the server during heavy Terralith generation |
 | | `sync-chunk-writes=false` | faster chunk saving on Linux |
 | | `spawn-protection=0` | everyone can build at spawn |
-| `config/voicechat/voicechat-server.properties` | `port=-1` | voice chat uses the Minecraft port, no second allocation |
 
 Everything else runs on mod defaults. ServerCore, Lithium, Krypton, FerriteCore, Alternate Current and Ksyxis need no tuning.
 
@@ -57,7 +56,7 @@ Optional Discord chat bridge: [Discord-MC-Chat](https://modrinth.com/mod/discord
 
 ## Ports and firewall
 
-Open the Minecraft port for **both TCP and UDP**. UDP carries voice chat.
+Open the Minecraft port (TCP). Nothing in the pack needs a second port.
 
 ## Players
 
