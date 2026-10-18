@@ -15,8 +15,9 @@
     "pid_limit"
   ],
   "docker_images": {
-    "Java 25 (pelican-eggs)": "ghcr.io/pelican-eggs/yolks:java_25",
-    "Java 25 (parkervcp)": "ghcr.io/parkervcp/yolks:java_25"
+    "GraalVM 25 (scotthowson/graalvm-papermc)": "ghcr.io/scotthowson/graalvm-papermc:graalvm25",
+    "GraalVM latest (scotthowson/graalvm-papermc)": "ghcr.io/scotthowson/graalvm-papermc:latest",
+    "Java 25 (pelican-eggs yolks)": "ghcr.io/pelican-eggs/yolks:java_25"
   },
   "file_denylist": [],
   "startup": "java -Xms128M -XX:MaxRAMPercentage=90.0 -XX:+UseZGC -Dterminal.jline=false -Dterminal.ansi=true -jar {{SERVER_JARFILE}} nogui",
@@ -28,7 +29,7 @@
   },
   "scripts": {
     "installation": {
-      "script": "#!/bin/bash\n# FluentMC: installs the Fabric server launcher and every server-side file listed in the .mrpack, hash-verified.\nset -eo pipefail\napt-get update -qq >/dev/null 2>&1 && apt-get install -y -qq curl jq unzip >/dev/null 2>&1 || true\nmkdir -p /mnt/server && cd /mnt/server\necho \"Downloading pack: ${MRPACK_URL}\"\ncurl -fsSL -o pack.mrpack \"${MRPACK_URL}\"\nrm -rf pack && mkdir pack && unzip -oq pack.mrpack -d pack\nIDX=pack/modrinth.index.json\nMC=$(jq -r '.dependencies.minecraft' \"$IDX\")\nLOADER=$(jq -r '.dependencies[\"fabric-loader\"]' \"$IDX\")\nINSTALLER=$(curl -fsSL https://meta.fabricmc.net/v2/versions/installer | jq -r '[.[]|select(.stable)][0].version')\necho \"Fabric server: Minecraft $MC, loader $LOADER, installer $INSTALLER\"\ncurl -fsSL -o \"${SERVER_JARFILE}\" \"https://meta.fabricmc.net/v2/versions/loader/${MC}/${LOADER}/${INSTALLER}/server/jar\"\nrm -rf mods && mkdir -p mods\njq -r '.files[] | select(.env.server != \"unsupported\") | \"\\(.path)\\t\\(.hashes.sha512)\\t\\(.downloads[0])\"' \"$IDX\" |\nwhile IFS=$'\\t' read -r path sha url; do\n  mkdir -p \"$(dirname \"$path\")\"\n  curl -fsSL -o \"$path\" \"$url\"\n  echo \"$sha  $path\" | sha512sum -c --quiet -\n  echo \"  + $path\"\ndone\n[ -d pack/overrides ] && cp -r pack/overrides/. .\n[ -d pack/server-overrides ] && cp -r pack/server-overrides/. .\nrm -rf pack pack.mrpack\necho \"FluentMC install complete.\"\n",
+      "script": "#!/bin/bash\n# FluentMC: installs the Fabric server launcher and every server-side file listed in the .mrpack, hash-verified.\nset -eo pipefail\napt-get update -qq >/dev/null 2>&1 && apt-get install -y -qq curl jq unzip >/dev/null 2>&1 || true\nmkdir -p /mnt/server && cd /mnt/server\necho \"Downloading pack: ${MRPACK_URL}\"\ncurl -fsSL -o pack.mrpack \"${MRPACK_URL}\"\nrm -rf pack && mkdir pack && unzip -oq pack.mrpack -d pack\nIDX=pack/modrinth.index.json\nMC=$(jq -r '.dependencies.minecraft' \"$IDX\")\nLOADER=$(jq -r '.dependencies[\"fabric-loader\"]' \"$IDX\")\nINSTALLER=$(curl -fsSL https://meta.fabricmc.net/v2/versions/installer | jq -r '[.[]|select(.stable)][0].version')\necho \"Fabric server: Minecraft $MC, loader $LOADER, installer $INSTALLER\"\ncurl -fsSL -o \"${SERVER_JARFILE}\" \"https://meta.fabricmc.net/v2/versions/loader/${MC}/${LOADER}/${INSTALLER}/server/jar\"\nrm -rf mods && mkdir -p mods\njq -r '.files[] | select(.env.server != \"unsupported\") | \"\\(.path)\\t\\(.hashes.sha512)\\t\\(.downloads[0])\"' \"$IDX\" |\nwhile IFS=$'\\t' read -r path sha url; do\n  mkdir -p \"$(dirname \"$path\")\"\n  curl -fsSL -o \"$path\" \"$url\"\n  echo \"$sha  $path\" | sha512sum -c --quiet -\n  echo \"  + $path\"\ndone\n# -n: never clobber server.properties or mod configs an admin has already tuned\n[ -d pack/overrides ] && cp -rn pack/overrides/. .\n[ -d pack/server-overrides ] && cp -rn pack/server-overrides/. .\nrm -rf pack pack.mrpack\necho \"FluentMC install complete.\"\n",
       "container": "ghcr.io/parkervcp/installers:debian",
       "entrypoint": "bash"
     }
@@ -48,7 +49,7 @@
       "name": ".mrpack URL",
       "description": "Direct download link to the FluentMC .mrpack. Reinstall the server after changing it to update mods (the world is kept).",
       "env_variable": "MRPACK_URL",
-      "default_value": "https://github.com/scotthowson/FluentMC/releases/latest/download/FluentMC-1.0.0.mrpack",
+      "default_value": "https://github.com/scotthowson/FluentMC/releases/latest/download/FluentMC-latest.mrpack",
       "user_viewable": true,
       "user_editable": true,
       "rules": "required|string|url",

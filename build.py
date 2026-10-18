@@ -3,22 +3,22 @@ import json, sys, os, hashlib, shutil, zipfile, urllib.request, urllib.parse, co
 cache, out, inst = map(os.path.abspath, sys.argv[1:4])
 os.makedirs(cache, exist_ok=True)
 MC, LOADER, INSTALLER = "26.3", "0.20.0", "1.1.2"
-NAME, VER = "FluentMC", "1.0.0"
+NAME, VER = "FluentMC", "1.0.1"
 
 CLIENT = """sodium iris sodium-extra reeses-sodium-options immediatelyfast entityculling moreculling badoptimizations
 dynamic-fps continuity lambdynamiclights lambdabettergrass modmenu placeholder-api xaeros-minimap xaeros-world-map
 inventory-profiles-next libipn mouse-tweaks zoomify yacl not-enough-animations visuality presence-footsteps ambientsounds
 creativecore sound-physics-remastered entity-model-features entitytexturefeatures chat-heads controlling searchables
 status-effect-bars fastquit bobby""".split()
-BOTH = """fabric-api fabric-language-kotlin cloth-config architectury-api lithium ferrite-core krypton balm waystones
+BOTH = """fabric-api fabric-language-kotlin cloth-config lithium ferrite-core krypton balm waystones
 farmers-delight-refabricated puzzles-lib forge-config-api-port travelersbackpack better-combat player-animation-library
-naturalist resourceful-lib friends-and-foes lithostitched terralith tectonic nullscape structory structory-towers cristel-lib
+naturalist resourceful-lib friends-and-foes lithostitched terralith nullscape structory structory-towers cristel-lib
 towns-and-towers dungeons-and-taverns hopo-better-mineshaft hopo-better-ruined-portals hopo-better-underwater-ruins
 moogs-structure-lib mes-moogs-end-structures formations formations-overworld formations-nether lootr polymer universal-graves
-trade-cycling veinminer fallingtree carry-on easy-anvils easy-magic leaves-be-gone rei jade appleskin clumps prickle
-enchantment-descriptions shulkerboxtooltip simple-voice-chat ping-wheel spark chunky distanthorizons
+trade-cycling veinminer fallingtree carry-on easy-anvils easy-magic leaves-be-gone jei mezzconfig jade appleskin clumps prickle
+enchantment-descriptions shulkerboxtooltip simple-voice-chat ping-wheel spark distanthorizons
 shogi natures-compass explorers-compass""".split()
-SERVER = ["servercore"]
+SERVER = ["servercore", "chunky"]
 SHADERS = ["complementary-unbound", "complementary-reimagined", "bsl-shaders", "photon-shader"]
 RESOURCEPACKS = ["fresh-animations"]
 
@@ -77,14 +77,16 @@ filename = {m["slug"]: m["file"]["filename"] for m in mods}
 shader, fa = filename["complementary-unbound"], filename["fresh-animations"]
 os.makedirs(os.path.join(client, "config"), exist_ok=True)
 open(os.path.join(client, "config", "iris.properties"), "w").write(
-    f"#Iris Config\nshaderPack={shader}\nenableShaders=true\ndisableUpdateMessage=true\n")
+    f"#Iris Config\nshaderPack={shader}\nenableShaders=false\ndisableUpdateMessage=true\n")
 OPTS = {"renderDistance": "16", "simulationDistance": "10", "entityDistanceScaling": "1.0",
-        "resourcePacks": json.dumps(["vanilla", "fabric", f"file/{fa}"]),
+        "resourcePacks": json.dumps(["vanilla", f"file/{fa}"]),
         "incompatibleResourcePacks": json.dumps([f"file/{fa}"])}
 open(os.path.join(client, "options.txt"), "w").write("".join(f"{k}:{v}\n" for k, v in OPTS.items()))
 
 # server files
-os.makedirs(os.path.join(server, "config"), exist_ok=True)
+os.makedirs(os.path.join(server, "config", "voicechat"), exist_ok=True)
+# port=-1 makes voice chat share the Minecraft port (TCP+UDP), so Pelican needs a single allocation
+open(os.path.join(server, "config", "voicechat", "voicechat-server.properties"), "w").write("port=-1\n")
 launcher = f"fabric-server-mc.{MC}-loader.{LOADER}-launcher.{INSTALLER}.jar"
 open(os.path.join(server, launcher), "wb").write(urllib.request.urlopen(
     f"https://meta.fabricmc.net/v2/versions/loader/{MC}/{LOADER}/{INSTALLER}/server/jar").read())
@@ -129,6 +131,10 @@ with zipfile.ZipFile(mrpack, "w", zipfile.ZIP_DEFLATED) as z:
     z.write(os.path.join(client, "config", "iris.properties"), "client-overrides/config/iris.properties")
     z.write(os.path.join(client, "options.txt"), "client-overrides/options.txt")
     z.write(os.path.join(server, "server.properties"), "server-overrides/server.properties")
+    for root, _, files in os.walk(os.path.join(server, "config")):
+        for f in files:
+            full = os.path.join(root, f)
+            z.write(full, "server-overrides/" + os.path.relpath(full, server))
 shutil.make_archive(os.path.join(out, f"{NAME}-{VER}-server"), "zip", build, "server")
 
 # sync Prism instance
