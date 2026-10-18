@@ -3,14 +3,15 @@ import json, sys, os, hashlib, shutil, zipfile, urllib.request, urllib.parse, co
 cache, out, inst = map(os.path.abspath, sys.argv[1:4])
 os.makedirs(cache, exist_ok=True)
 MC, LOADER, INSTALLER = "26.3", "0.20.0", "1.1.2"
-NAME, VER = "FluentMC", "1.0.2"
+NAME, VER = "FluentMC", "1.0.3"
 
 CLIENT = """sodium iris sodium-extra reeses-sodium-options immediatelyfast entityculling moreculling badoptimizations
 dynamic-fps continuity lambdynamiclights lambdabettergrass modmenu placeholder-api xaeros-minimap xaeros-world-map
 inventory-profiles-next libipn mouse-tweaks zoomify yacl not-enough-animations visuality presence-footsteps ambientsounds
 creativecore sound-physics-remastered entity-model-features entitytexturefeatures chat-heads controlling searchables
 status-effect-bars fastquit bobby dynamiccrosshair durability-tooltip supermartijn642s-config-lib pick-up-notifier
-overflowing-bars better-mount-hud boat-item-view legendary-tooltips advancement-plaques prism-lib item-highlighter lighty""".split()
+overflowing-bars better-mount-hud boat-item-view legendary-tooltips advancement-plaques prism-lib item-highlighter lighty auth-me dark-loading-screen smooth-scrolling-refurbished fast-ip-ping tool-stats
+ambient-environment particle-rain sodium-shadowy-path-blocks""".split()
 BOTH = """fabric-api fabric-language-kotlin cloth-config lithium ferrite-core krypton balm waystones
 farmers-delight-refabricated puzzles-lib forge-config-api-port travelersbackpack better-combat player-animation-library
 naturalist resourceful-lib friends-and-foes lithostitched terralith nullscape structory structory-towers cristel-lib
@@ -18,8 +19,9 @@ towns-and-towers dungeons-and-taverns hopo-better-mineshaft hopo-better-ruined-p
 moogs-structure-lib mes-moogs-end-structures formations formations-overworld formations-nether lootr polymer universal-graves
 trade-cycling veinminer fallingtree carry-on easy-anvils easy-magic leaves-be-gone jei mezzconfig jade appleskin clumps prickle
 enchantment-descriptions shulkerboxtooltip simple-voice-chat ping-wheel spark distanthorizons
-shogi natures-compass explorers-compass crafting-tweaks iceberg""".split()
-SERVER = ["servercore", "chunky"]
+shogi natures-compass explorers-compass crafting-tweaks iceberg diagonal-fences diagonal-walls diagonal-windows visual-workbench easy-shulker-boxes
+trashslot armor-statues debugify""".split()
+SERVER = ["servercore", "chunky", "alternate-current", "ksyxis", "netherportalfix", "tabtps", "ledger"]
 SHADERS = ["complementary-unbound", "complementary-reimagined", "bsl-shaders", "photon-shader"]
 RESOURCEPACKS = ["fresh-animations"]
 

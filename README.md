@@ -6,7 +6,9 @@ A Fabric modpack for Minecraft 26.3 that keeps vanilla's feel but makes it smoot
 - **Pretty**: Complementary Unbound shaders enabled out of the box (Reimagined, BSL and Photon included), Fresh Animations, Presence Footsteps, AmbientSounds, Sound Physics, Visuality, Not Enough Animations, LambDynamicLights, Continuity.
 - **Fresh world**: Terralith terrain, Nullscape end, Structory, Towns & Towers, Dungeons and Taverns, Hopo's better structures, Formations, Moog's End Structures, Naturalist and Friends & Foes mobs.
 - **Play together**: Waystones, Simple Voice Chat, Ping Wheel, Lootr (per-player loot), Universal Graves, Farmer's Delight, Traveler's Backpack, Better Combat, Nature's and Explorer's Compass, VeinMiner, FallingTree, Carry On, Easy Anvils / Easy Magic, Trade Cycling.
-- **QoL**: JEI, Jade, AppleSkin, Xaero's Minimap + World Map, Inventory Profiles Next, Mouse Tweaks, Crafting Tweaks, Dynamic Crosshair, Zoomify, Controlling, Enchantment Descriptions, Durability Tooltip, Legendary Tooltips, Advancement Plaques, Item Highlighter, Pick Up Notifier, Overflowing Bars, Better Mount HUD, Boat Item View, Lighty, Shulker Box Tooltip, Chat Heads, Status Effect Bars, Mod Menu.
+- **QoL**: JEI, Jade, AppleSkin, Xaero's Minimap + World Map, Inventory Profiles Next, Mouse Tweaks, Crafting Tweaks, Dynamic Crosshair, Zoomify, Controlling, Enchantment Descriptions, Durability Tooltip, Legendary Tooltips, Advancement Plaques, Item Highlighter, Pick Up Notifier, Overflowing Bars, Better Mount HUD, Boat Item View, Lighty, Tool Stats, Auth Me, Dark Loading Screen, Smooth Scrolling, Fast IP Ping, Shulker Box Tooltip, Chat Heads, Status Effect Bars, Mod Menu.
+- **Building**: Diagonal Fences / Walls / Windows, Visual Workbench, Easy Shulker Boxes, TrashSlot, Armor Statues, Ambient Environment and Particle Rain for atmosphere, Debugify for vanilla bug fixes.
+- **Server only**: ServerCore, Alternate Current, Ksyxis, Nether Portal Fix, TabTPS, Ledger (block and container logging), Chunky, Spark.
 
 Full list with versions and sides: [MODLIST.md](MODLIST.md). Hosting guide: [docs/SERVER.md](docs/SERVER.md).
 

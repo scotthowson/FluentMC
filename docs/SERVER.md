@@ -35,7 +35,25 @@ sed -i 's/eula=false/eula=true/' eula.txt   # only if you agree to https://aka.m
 | | `spawn-protection=0` | everyone can build at spawn |
 | `config/voicechat/voicechat-server.properties` | `port=-1` | voice chat uses the Minecraft port, no second allocation |
 
-Everything else runs on mod defaults. ServerCore, Lithium, Krypton and FerriteCore need no tuning. Chunky is installed for pre-generating: `chunky radius 2000` then `chunky start` after the first boot gives new players instant chunks.
+Everything else runs on mod defaults. ServerCore, Lithium, Krypton, FerriteCore, Alternate Current and Ksyxis need no tuning.
+
+## Admin tools on the server
+
+- **TabTPS**: `/tps`, `/mspt`, `/memory`, and `/tabtps toggle tab` puts TPS in the tab list.
+- **Ledger**: who broke, placed or took what. `/lg search action:block-break range:20` or `/lg inspect`, then `/lg rollback range:20 time:1h` to undo griefing.
+- **Spark**: `/spark profiler start` for 30 seconds of lag diagnosis, `/spark health`.
+- **Chunky**: `/chunky radius 2000` then `/chunky start` pre-generates the world so new players never wait on Terralith.
+- **Nether Portal Fix** links portals correctly between dimensions; nothing to configure.
+
+Backups: use Pelican's built-in backup schedule (Server → Backups). No backup mod is bundled.
+
+Useful one-time gamerule for a friends server, in the console once the world exists:
+
+```
+gamerule playersSleepingPercentage 30
+```
+
+Optional Discord chat bridge: [Discord-MC-Chat](https://modrinth.com/mod/discord-mc-chat) has a 26.3 server build, but it needs a bot token and is still beta, so it is not bundled. Drop its jar into `mods/` on the server and follow its README if you want join/leave and chat mirrored into your Discord. Chunky is installed for pre-generating: `chunky radius 2000` then `chunky start` after the first boot gives new players instant chunks.
 
 ## Ports and firewall
 
