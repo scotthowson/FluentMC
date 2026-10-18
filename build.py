@@ -3,7 +3,7 @@ import json, sys, os, hashlib, shutil, zipfile, urllib.request, urllib.parse, co
 cache, out, inst = map(os.path.abspath, sys.argv[1:4])
 os.makedirs(cache, exist_ok=True)
 MC, LOADER, INSTALLER = "26.3", "0.20.0", "1.1.2"
-NAME, VER = "FluentMC", "1.0.4"
+NAME, VER = "FluentMC", "1.0.5"
 
 CLIENT = """sodium iris sodium-extra reeses-sodium-options immediatelyfast entityculling moreculling badoptimizations
 dynamic-fps continuity lambdynamiclights lambdabettergrass modmenu placeholder-api xaeros-minimap xaeros-world-map
@@ -20,7 +20,9 @@ moogs-structure-lib mes-moogs-end-structures formations formations-overworld for
 trade-cycling veinminer fallingtree carry-on easy-anvils easy-magic leaves-be-gone jei mezzconfig jade appleskin clumps prickle
 enchantment-descriptions shulkerboxtooltip ping-wheel spark distanthorizons
 shogi natures-compass explorers-compass crafting-tweaks iceberg diagonal-fences diagonal-walls diagonal-windows visual-workbench easy-shulker-boxes
-trashslot armor-statues debugify""".split()
+trashslot armor-statues debugify toms-storage camerapture
+macaws-furniture macaws-bridges macaws-roofs macaws-windows macaws-doors macaws-trapdoors macaws-fences-and-walls
+macaws-lights-and-lamps macaws-paths-and-pavings macaws-stairs macaws-paintings""".split()
 SERVER = ["servercore", "chunky", "alternate-current", "ksyxis", "netherportalfix", "tabtps", "ledger"]
 SHADERS = ["complementary-unbound", "complementary-reimagined", "bsl-shaders", "photon-shader"]
 RESOURCEPACKS = ["fresh-animations"]
