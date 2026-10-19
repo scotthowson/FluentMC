@@ -2,7 +2,7 @@
 
 A Fabric modpack for Minecraft 26.3 that keeps vanilla's feel but makes it smoother, prettier and better to explore with friends.
 
-- **Smooth**: Sodium, Iris, Lithium, FerriteCore, ImmediatelyFast, Entity Culling, More Culling, Krypton, Dynamic FPS, Distant Horizons, Bobby.
+- **Smooth**: Sodium, Iris, Lithium, FerriteCore, ImmediatelyFast, Entity Culling, More Culling, Krypton, Dynamic FPS, Bobby.
 - **Pretty**: Complementary Unbound shaders enabled out of the box (Reimagined, BSL and Photon included), Fresh Animations, Presence Footsteps, AmbientSounds, Sound Physics, Visuality, Not Enough Animations, LambDynamicLights, Continuity.
 - **Fresh world**: Terralith terrain with Biomes O' Plenty, Amplified Nether with Incendium, Enderscape end, Serene Seasons, End Remastered, Better Archeology, Stoneworks, Wilder Wild, Promenade, Ecologics, Fish of Thieves, Dungeons and Taverns with its Ancient City, Nether Fortress, Pillager Outpost, Stronghold and Swamp Hut overhauls, Repurposed Structures, Structory, Towns & Towers, Dungeons and Taverns, Hopo's better structures, Formations, Moog's End Structures, Naturalist, Friends & Foes and Mutant Monsters, Spawn Animations.
 - **Play together**: Waystones, Ping Wheel, Crawl, Friendly Fire, XP Tome, Do a Barrel Roll, Universal Enchants, Elytra Trims, Lootr (per-player loot), Universal Graves, Farmer's Delight, Traveler's Backpack, Better Combat, Nature's and Explorer's Compass, VeinMiner, FallingTree, Carry On, Easy Anvils / Easy Magic, Trade Cycling.

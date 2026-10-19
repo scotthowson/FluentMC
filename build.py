@@ -3,13 +3,13 @@ import json, sys, os, hashlib, shutil, zipfile, urllib.request, urllib.parse, co
 cache, out, inst = map(os.path.abspath, sys.argv[1:4])
 os.makedirs(cache, exist_ok=True)
 MC, LOADER, INSTALLER = "26.3", "0.20.0", "1.1.2"
-NAME, VER = "FluentMC", "1.0.9"
+NAME, VER = "FluentMC", "1.0.10"
 
 CLIENT = """sodium iris sodium-extra reeses-sodium-options immediatelyfast entityculling moreculling badoptimizations
 dynamic-fps continuity lambdynamiclights lambdabettergrass modmenu placeholder-api xaeros-minimap xaeros-world-map
 inventory-profiles-next libipn mouse-tweaks zoomify not-enough-animations visuality presence-footsteps ambientsounds
 creativecore sound-physics-remastered entity-model-features entitytexturefeatures chat-heads controlling searchables
-status-effect-bars fastquit bobby distanthorizons dynamiccrosshair durability-tooltip supermartijn642s-config-lib pick-up-notifier
+status-effect-bars fastquit bobby dynamiccrosshair durability-tooltip supermartijn642s-config-lib pick-up-notifier
 overflowing-bars better-mount-hud boat-item-view legendary-tooltips advancement-plaques prism-lib item-highlighter lighty auth-me dark-loading-screen smooth-scrolling-refurbished fast-ip-ping tool-stats
 ambient-environment particle-rain sodium-shadowy-path-blocks wavey-capes mob-plaques chunks-fade-in autohud beautified-chat-client hey-wiki stendhal better-clouds wakes cherished-worlds""".split()
 BOTH = """fabric-api fabric-language-kotlin cloth-config lithium ferrite-core krypton balm waystones

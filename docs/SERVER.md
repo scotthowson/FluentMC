@@ -30,7 +30,7 @@ sed -i 's/eula=false/eula=true/' eula.txt   # only if you agree to https://aka.m
 |---|---|---|
 | `server.properties` | `white-list=true`, `enforce-whitelist=true` | friends only |
 | | `difficulty=normal`, PvP on | vanilla defaults, as chosen |
-| | `view-distance=12`, `simulation-distance=8` | server does less; clients see far with Distant Horizons and Bobby |
+| | `view-distance=12`, `simulation-distance=8` | server does less; clients see far with Bobby |
 | | `allow-flight=true` | stops kicks from Waystones teleports and backpack hovering |
 | | `max-tick-time=-1` | the watchdog would kill the server during heavy Terralith generation |
 | | `sync-chunk-writes=false` | faster chunk saving on Linux |
@@ -40,7 +40,7 @@ sed -i 's/eula=false/eula=true/' eula.txt   # only if you agree to https://aka.m
 | `config/EssentialCommands.properties` | 5 homes, 1 s teleport cooldown, `/back` after death | friends-server travel |
 | `mods/fluentmc-rules-<ver>.jar` | `players_sleeping_percentage 1` on every world load | one sleeper skips the night, also in singleplayer |
 
-Distant Horizons is client-side only: its server-side generator deadlocked chunk generation on a 26.3 dedicated server during testing, and clients build their own LODs fine without it. The client ships with DH's rendering engine pinned to Blaze3D, because the OpenGL fallback DH picks when Iris is present fails to load levels on multiplayer servers (chat spam). Consequence: LODs are hidden while shaders are on.
+Distant Horizons is not in the pack. On 26.3 its OpenGL engine (forced whenever Iris is installed) fails to load levels on multiplayer servers, its Blaze3D engine refuses to start with Iris, and its server-side generator deadlocked chunk generation. Bobby caches chunks past the server view distance instead.
 
 Everything else runs on mod defaults. ServerCore, Lithium, Krypton, FerriteCore, Alternate Current and Ksyxis need no tuning.
 
