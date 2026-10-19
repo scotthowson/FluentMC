@@ -30,7 +30,7 @@ sed -i 's/eula=false/eula=true/' eula.txt   # only if you agree to https://aka.m
 |---|---|---|
 | `server.properties` | `white-list=true`, `enforce-whitelist=true` | friends only |
 | | `difficulty=normal`, PvP on | vanilla defaults, as chosen |
-| | `view-distance=10`, `simulation-distance=8` | server does less; clients see far with Distant Horizons and Bobby |
+| | `view-distance=12`, `simulation-distance=8` | server does less; clients see far with Distant Horizons and Bobby |
 | | `allow-flight=true` | stops kicks from Waystones teleports and backpack hovering |
 | | `max-tick-time=-1` | the watchdog would kill the server during heavy Terralith generation |
 | | `sync-chunk-writes=false` | faster chunk saving on Linux |

@@ -3,18 +3,18 @@ import json, sys, os, hashlib, shutil, zipfile, urllib.request, urllib.parse, co
 cache, out, inst = map(os.path.abspath, sys.argv[1:4])
 os.makedirs(cache, exist_ok=True)
 MC, LOADER, INSTALLER = "26.3", "0.20.0", "1.1.2"
-NAME, VER = "FluentMC", "1.0.6"
+NAME, VER = "FluentMC", "1.0.7"
 
 CLIENT = """sodium iris sodium-extra reeses-sodium-options immediatelyfast entityculling moreculling badoptimizations
 dynamic-fps continuity lambdynamiclights lambdabettergrass modmenu placeholder-api xaeros-minimap xaeros-world-map
-inventory-profiles-next libipn mouse-tweaks zoomify yacl not-enough-animations visuality presence-footsteps ambientsounds
+inventory-profiles-next libipn mouse-tweaks zoomify not-enough-animations visuality presence-footsteps ambientsounds
 creativecore sound-physics-remastered entity-model-features entitytexturefeatures chat-heads controlling searchables
 status-effect-bars fastquit bobby distanthorizons dynamiccrosshair durability-tooltip supermartijn642s-config-lib pick-up-notifier
 overflowing-bars better-mount-hud boat-item-view legendary-tooltips advancement-plaques prism-lib item-highlighter lighty auth-me dark-loading-screen smooth-scrolling-refurbished fast-ip-ping tool-stats
-ambient-environment particle-rain sodium-shadowy-path-blocks""".split()
+ambient-environment particle-rain sodium-shadowy-path-blocks wavey-capes mob-plaques chunks-fade-in autohud beautified-chat-client""".split()
 BOTH = """fabric-api fabric-language-kotlin cloth-config lithium ferrite-core krypton balm waystones
 farmers-delight-refabricated puzzles-lib forge-config-api-port travelersbackpack better-combat player-animation-library
-naturalist resourceful-lib friends-and-foes lithostitched terralith nullscape structory structory-towers cristel-lib
+naturalist resourceful-lib friends-and-foes lithostitched terralith enderscape structory structory-towers cristel-lib
 towns-and-towers dungeons-and-taverns hopo-better-mineshaft hopo-better-ruined-portals hopo-better-underwater-ruins
 moogs-structure-lib mes-moogs-end-structures formations formations-overworld formations-nether lootr polymer universal-graves
 trade-cycling veinminer fallingtree carry-on easy-anvils easy-magic leaves-be-gone jei mezzconfig jade appleskin clumps prickle
@@ -25,9 +25,11 @@ macaws-furniture macaws-bridges macaws-roofs macaws-windows macaws-doors macaws-
 macaws-lights-and-lamps macaws-paths-and-pavings macaws-stairs macaws-paintings
 amplified-nether dungeons-and-taverns-ancient-city-overhaul dungeons-and-taverns-nether-fortress-overhaul
 dungeons-and-taverns-pillager-outpost-overhaul dungeons-and-taverns-stronghold-overhaul dungeons-and-taverns-swamp-hut-overhaul
-repurposed-structures-fabric midnightlib wilder-wild frozenlib ecologics fish-of-thieves promenade""".split()
+repurposed-structures-fabric midnightlib wilder-wild frozenlib ecologics fish-of-thieves promenade
+endrem better-archeology architectury-api resourceful-config stoneworks elytra-trims serene-seasons biomes-o-plenty terrablender glitchcore
+mutant-monsters crawl friendly-fire xp-tome do-a-barrel-roll cicada universal-enchants spawn-animations collective yacl""".split()
 SERVER = ["servercore", "chunky", "alternate-current", "ksyxis", "netherportalfix", "tabtps", "ledger",
-          "essential-commands", "sit", "otterlib", "mob-heads", "lib-5555ff"]
+          "essential-commands", "sit", "otterlib", "mob-heads", "lib-5555ff", "pet-names", "styled-chat"]
 SHADERS = ["complementary-unbound", "complementary-reimagined", "bsl-shaders", "photon-shader"]
 RESOURCEPACKS = ["fresh-animations"]
 
@@ -68,7 +70,7 @@ with cf.ThreadPoolExecutor(12) as ex:
     list(ex.map(fetch, mods))
 
 have = {m["pid"] for m in mods}
-missing = {d for m in mods for d in m["deps"] if d not in have} - {"1vrSzlao"}  # kotlin-lang-forge: Forge only
+missing = {d for m in mods for d in m["deps"] if d not in have} - {"1vrSzlao", "qvIfYCYJ"}  # kotlin-lang-forge: Forge only; qsl: Quilt only (Fabric API covers it)
 for d in missing:
     who = [m["slug"] for m in mods if d in m["deps"]]
     print(f"MISSING DEP {d} ({api('project/'+d)['slug']}) needed by {who}")
@@ -89,7 +91,9 @@ open(os.path.join(client, "config", "iris.properties"), "w").write(
     f"#Iris Config\nshaderPack={shader}\nenableShaders=false\ndisableUpdateMessage=true\n")
 OPTS = {"renderDistance": "16", "simulationDistance": "10", "entityDistanceScaling": "1.0",
         "resourcePacks": json.dumps(["vanilla", f"file/{fa}"]),
-        "incompatibleResourcePacks": json.dumps([f"file/{fa}"])}
+        "incompatibleResourcePacks": json.dumps([f"file/{fa}"]),
+        "key_gui.xaero_new_waypoint": "key.keyboard.n", "key_key.toms_storage.open_terminal": "key.keyboard.h",
+        "key_key.travelersbackpack.cycle_tool": "key.keyboard.v"}
 open(os.path.join(client, "options.txt"), "w").write("".join(f"{k}:{v}\n" for k, v in OPTS.items()))
 
 # server files
@@ -115,7 +119,7 @@ open(os.path.join(server, launcher), "wb").write(urllib.request.urlopen(
     f"https://meta.fabricmc.net/v2/versions/loader/{MC}/{LOADER}/{INSTALLER}/server/jar").read())
 open(os.path.join(server, "server.properties"), "w").write(f"""motd=\\u00a7b{NAME}\\u00a7r - Fabric {MC}
 max-players=10
-view-distance=10
+view-distance=12
 simulation-distance=8
 difficulty=normal
 spawn-protection=0
