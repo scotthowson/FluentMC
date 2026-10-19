@@ -1,0 +1,5 @@
+# FluentMC: pin the Blaze3D engine. DH's AUTO mode falls back to OpenGL when Iris is installed,
+# and on 26.3 that path crashes level loading on multiplayer servers (chat spam "Client level loading failed").
+# Trade-off: LODs do not render while shaders are enabled.
+[client.advanced.graphics.experimental]
+	renderingEngine = "BLAZE_3D"

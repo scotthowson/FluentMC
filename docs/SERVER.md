@@ -40,7 +40,7 @@ sed -i 's/eula=false/eula=true/' eula.txt   # only if you agree to https://aka.m
 | `config/EssentialCommands.properties` | 5 homes, 1 s teleport cooldown, `/back` after death | friends-server travel |
 | `mods/fluentmc-rules-<ver>.jar` | `players_sleeping_percentage 1` on every world load | one sleeper skips the night, also in singleplayer |
 
-Distant Horizons is client-side only: its server-side generator deadlocked chunk generation on a 26.3 dedicated server during testing, and clients build their own LODs fine without it.
+Distant Horizons is client-side only: its server-side generator deadlocked chunk generation on a 26.3 dedicated server during testing, and clients build their own LODs fine without it. The client ships with DH's rendering engine pinned to Blaze3D, because the OpenGL fallback DH picks when Iris is present fails to load levels on multiplayer servers (chat spam). Consequence: LODs are hidden while shaders are on.
 
 Everything else runs on mod defaults. ServerCore, Lithium, Krypton, FerriteCore, Alternate Current and Ksyxis need no tuning.
 

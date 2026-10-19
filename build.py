@@ -3,7 +3,7 @@ import json, sys, os, hashlib, shutil, zipfile, urllib.request, urllib.parse, co
 cache, out, inst = map(os.path.abspath, sys.argv[1:4])
 os.makedirs(cache, exist_ok=True)
 MC, LOADER, INSTALLER = "26.3", "0.20.0", "1.1.2"
-NAME, VER = "FluentMC", "1.0.8"
+NAME, VER = "FluentMC", "1.0.9"
 
 CLIENT = """sodium iris sodium-extra reeses-sodium-options immediatelyfast entityculling moreculling badoptimizations
 dynamic-fps continuity lambdynamiclights lambdabettergrass modmenu placeholder-api xaeros-minimap xaeros-world-map
