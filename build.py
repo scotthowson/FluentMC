@@ -3,13 +3,13 @@ import json, sys, os, hashlib, shutil, zipfile, urllib.request, urllib.parse, co
 cache, out, inst = map(os.path.abspath, sys.argv[1:4])
 os.makedirs(cache, exist_ok=True)
 MC, LOADER, INSTALLER = "26.3", "0.20.0", "1.1.2"
-NAME, VER = "FluentMC", "1.0.5"
+NAME, VER = "FluentMC", "1.0.6"
 
 CLIENT = """sodium iris sodium-extra reeses-sodium-options immediatelyfast entityculling moreculling badoptimizations
 dynamic-fps continuity lambdynamiclights lambdabettergrass modmenu placeholder-api xaeros-minimap xaeros-world-map
 inventory-profiles-next libipn mouse-tweaks zoomify yacl not-enough-animations visuality presence-footsteps ambientsounds
 creativecore sound-physics-remastered entity-model-features entitytexturefeatures chat-heads controlling searchables
-status-effect-bars fastquit bobby dynamiccrosshair durability-tooltip supermartijn642s-config-lib pick-up-notifier
+status-effect-bars fastquit bobby distanthorizons dynamiccrosshair durability-tooltip supermartijn642s-config-lib pick-up-notifier
 overflowing-bars better-mount-hud boat-item-view legendary-tooltips advancement-plaques prism-lib item-highlighter lighty auth-me dark-loading-screen smooth-scrolling-refurbished fast-ip-ping tool-stats
 ambient-environment particle-rain sodium-shadowy-path-blocks""".split()
 BOTH = """fabric-api fabric-language-kotlin cloth-config lithium ferrite-core krypton balm waystones
@@ -18,12 +18,16 @@ naturalist resourceful-lib friends-and-foes lithostitched terralith nullscape st
 towns-and-towers dungeons-and-taverns hopo-better-mineshaft hopo-better-ruined-portals hopo-better-underwater-ruins
 moogs-structure-lib mes-moogs-end-structures formations formations-overworld formations-nether lootr polymer universal-graves
 trade-cycling veinminer fallingtree carry-on easy-anvils easy-magic leaves-be-gone jei mezzconfig jade appleskin clumps prickle
-enchantment-descriptions shulkerboxtooltip ping-wheel spark distanthorizons
+enchantment-descriptions shulkerboxtooltip ping-wheel spark
 shogi natures-compass explorers-compass crafting-tweaks iceberg diagonal-fences diagonal-walls diagonal-windows visual-workbench easy-shulker-boxes
 trashslot armor-statues debugify toms-storage camerapture
 macaws-furniture macaws-bridges macaws-roofs macaws-windows macaws-doors macaws-trapdoors macaws-fences-and-walls
-macaws-lights-and-lamps macaws-paths-and-pavings macaws-stairs macaws-paintings""".split()
-SERVER = ["servercore", "chunky", "alternate-current", "ksyxis", "netherportalfix", "tabtps", "ledger"]
+macaws-lights-and-lamps macaws-paths-and-pavings macaws-stairs macaws-paintings
+amplified-nether dungeons-and-taverns-ancient-city-overhaul dungeons-and-taverns-nether-fortress-overhaul
+dungeons-and-taverns-pillager-outpost-overhaul dungeons-and-taverns-stronghold-overhaul dungeons-and-taverns-swamp-hut-overhaul
+repurposed-structures-fabric midnightlib wilder-wild frozenlib ecologics fish-of-thieves promenade""".split()
+SERVER = ["servercore", "chunky", "alternate-current", "ksyxis", "netherportalfix", "tabtps", "ledger",
+          "essential-commands", "sit", "otterlib", "mob-heads", "lib-5555ff"]
 SHADERS = ["complementary-unbound", "complementary-reimagined", "bsl-shaders", "photon-shader"]
 RESOURCEPACKS = ["fresh-animations"]
 
@@ -89,7 +93,23 @@ OPTS = {"renderDistance": "16", "simulationDistance": "10", "entityDistanceScali
 open(os.path.join(client, "options.txt"), "w").write("".join(f"{k}:{v}\n" for k, v in OPTS.items()))
 
 # server files
-os.makedirs(os.path.join(server, "config"), exist_ok=True)
+shutil.copytree(os.path.join(out, "server", "config"), os.path.join(server, "config"), dirs_exist_ok=True)
+if os.path.isdir(os.path.join(out, "client", "config")):
+    shutil.copytree(os.path.join(out, "client", "config"), os.path.join(client, "config"), dirs_exist_ok=True)
+
+# tiny code-less Fabric mod whose datapack sets friends-server gamerules on every world load
+rules_jar = f"fluentmc-rules-{VER}.jar"
+with zipfile.ZipFile(os.path.join(cache, rules_jar), "w", zipfile.ZIP_DEFLATED) as z:
+    z.writestr("fabric.mod.json", json.dumps({"schemaVersion": 1, "id": "fluentmc_rules", "version": VER,
+        "name": "FluentMC Rules", "description": "Sets FluentMC gamerules on world load.", "environment": "*"}))
+    z.writestr("data/fluentmc_rules/function/load.mcfunction", "gamerule players_sleeping_percentage 1\n")
+    z.writestr("data/minecraft/tags/function/load.json", json.dumps({"values": ["fluentmc_rules:load"]}))
+data = open(os.path.join(cache, rules_jar), "rb").read()
+mods.append({"slug": "fluentmc-rules", "pid": None, "version": VER, "dir": "mods", "client": "required", "server": "required",
+             "file": {"filename": rules_jar, "size": len(data), "url": f"https://github.com/scotthowson/{NAME}/releases/download/v{VER}/{rules_jar}",
+                      "hashes": {"sha1": hashlib.sha1(data).hexdigest(), "sha512": hashlib.sha512(data).hexdigest()}}})
+for root in (client, server):
+    shutil.copy(os.path.join(cache, rules_jar), os.path.join(root, "mods"))
 launcher = f"fabric-server-mc.{MC}-loader.{LOADER}-launcher.{INSTALLER}.jar"
 open(os.path.join(server, launcher), "wb").write(urllib.request.urlopen(
     f"https://meta.fabricmc.net/v2/versions/loader/{MC}/{LOADER}/{INSTALLER}/server/jar").read())
@@ -131,7 +151,10 @@ index = {"formatVersion": 1, "game": "minecraft", "versionId": VER, "name": NAME
 mrpack = os.path.join(out, f"{NAME}-{VER}.mrpack")
 with zipfile.ZipFile(mrpack, "w", zipfile.ZIP_DEFLATED) as z:
     z.writestr("modrinth.index.json", json.dumps(index, indent=2))
-    z.write(os.path.join(client, "config", "iris.properties"), "client-overrides/config/iris.properties")
+    for root, _, files in os.walk(os.path.join(client, "config")):
+        for f in files:
+            full = os.path.join(root, f)
+            z.write(full, "client-overrides/" + os.path.relpath(full, client))
     z.write(os.path.join(client, "options.txt"), "client-overrides/options.txt")
     z.write(os.path.join(server, "server.properties"), "server-overrides/server.properties")
     for root, _, files in os.walk(os.path.join(server, "config")):
@@ -150,8 +173,9 @@ lines = [l for l in open(op).read().splitlines() if l.split(":", 1)[0] not in OP
 open(op, "w").write("\n".join(lines + [f"{k}:{v}" for k, v in OPTS.items()]) + "\n")
 
 # MODLIST.md from Modrinth project metadata (one bulk call)
-ids = json.dumps([m["pid"] for m in mods])
+ids = json.dumps([m["pid"] for m in mods if m["pid"]])
 titles = {p["id"]: p for p in api("projects?ids=" + urllib.parse.quote(ids))}
+titles[None] = {"title": "FluentMC Rules", "project_type": "mod", "slug": "", "description": "Pack-local gamerules (one player sleeping skips the night)."}
 side = {("required", "required"): "both", ("required", "unsupported"): "client", ("unsupported", "required"): "server"}
 with open(os.path.join(out, "MODLIST.md"), "w") as f:
     f.write(f"# {NAME} {VER} mod list\n\nMinecraft {MC}, Fabric Loader {LOADER}. Generated by build.py from Modrinth.\n\n")
@@ -159,7 +183,8 @@ with open(os.path.join(out, "MODLIST.md"), "w") as f:
         f.write(f"## {heading}\n\n| Name | Version | Side | Summary |\n|---|---|---|---|\n")
         for m in sorted((m for m in mods if m["dir"] == directory), key=lambda m: titles[m["pid"]]["title"].lower()):
             t = titles[m["pid"]]
-            f.write(f"| [{t['title']}](https://modrinth.com/{t['project_type']}/{t['slug']}) | {m['version']} | {side[(m['client'], m['server'])]} | {t['description'].replace('|', '/')} |\n")
+            link = f"[{t['title']}](https://modrinth.com/{t['project_type']}/{t['slug']})" if t["slug"] else t["title"]
+            f.write(f"| {link} | {m['version']} | {side[(m['client'], m['server'])]} | {t['description'].replace('|', '/')} |\n")
         f.write("\n")
 
 print(f"\n{len(mods)} items; client mods={len(os.listdir(os.path.join(client,'mods')))} server mods={len(os.listdir(os.path.join(server,'mods')))}")
