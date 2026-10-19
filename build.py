@@ -3,7 +3,7 @@ import json, sys, os, hashlib, shutil, zipfile, urllib.request, urllib.parse, co
 cache, out, inst = map(os.path.abspath, sys.argv[1:4])
 os.makedirs(cache, exist_ok=True)
 MC, LOADER, INSTALLER = "26.3", "0.20.0", "1.1.2"
-NAME, VER = "FluentMC", "1.0.7"
+NAME, VER = "FluentMC", "1.0.8"
 
 CLIENT = """sodium iris sodium-extra reeses-sodium-options immediatelyfast entityculling moreculling badoptimizations
 dynamic-fps continuity lambdynamiclights lambdabettergrass modmenu placeholder-api xaeros-minimap xaeros-world-map
@@ -11,7 +11,7 @@ inventory-profiles-next libipn mouse-tweaks zoomify not-enough-animations visual
 creativecore sound-physics-remastered entity-model-features entitytexturefeatures chat-heads controlling searchables
 status-effect-bars fastquit bobby distanthorizons dynamiccrosshair durability-tooltip supermartijn642s-config-lib pick-up-notifier
 overflowing-bars better-mount-hud boat-item-view legendary-tooltips advancement-plaques prism-lib item-highlighter lighty auth-me dark-loading-screen smooth-scrolling-refurbished fast-ip-ping tool-stats
-ambient-environment particle-rain sodium-shadowy-path-blocks wavey-capes mob-plaques chunks-fade-in autohud beautified-chat-client""".split()
+ambient-environment particle-rain sodium-shadowy-path-blocks wavey-capes mob-plaques chunks-fade-in autohud beautified-chat-client hey-wiki stendhal better-clouds wakes cherished-worlds""".split()
 BOTH = """fabric-api fabric-language-kotlin cloth-config lithium ferrite-core krypton balm waystones
 farmers-delight-refabricated puzzles-lib forge-config-api-port travelersbackpack better-combat player-animation-library
 naturalist resourceful-lib friends-and-foes lithostitched terralith enderscape structory structory-towers cristel-lib
@@ -27,9 +27,9 @@ amplified-nether dungeons-and-taverns-ancient-city-overhaul dungeons-and-taverns
 dungeons-and-taverns-pillager-outpost-overhaul dungeons-and-taverns-stronghold-overhaul dungeons-and-taverns-swamp-hut-overhaul
 repurposed-structures-fabric midnightlib wilder-wild frozenlib ecologics fish-of-thieves promenade
 endrem better-archeology architectury-api resourceful-config stoneworks elytra-trims serene-seasons biomes-o-plenty terrablender glitchcore
-mutant-monsters crawl friendly-fire xp-tome do-a-barrel-roll cicada universal-enchants spawn-animations collective yacl""".split()
+mutant-monsters crawl friendly-fire xp-tome do-a-barrel-roll cicada universal-enchants spawn-animations collective yacl enchantment-lore incendium""".split()
 SERVER = ["servercore", "chunky", "alternate-current", "ksyxis", "netherportalfix", "tabtps", "ledger",
-          "essential-commands", "sit", "otterlib", "mob-heads", "lib-5555ff", "pet-names", "styled-chat"]
+          "essential-commands", "sit", "otterlib", "mob-heads", "lib-5555ff", "pet-names", "styled-chat", "brewery"]
 SHADERS = ["complementary-unbound", "complementary-reimagined", "bsl-shaders", "photon-shader"]
 RESOURCEPACKS = ["fresh-animations"]
 
@@ -93,7 +93,8 @@ OPTS = {"renderDistance": "16", "simulationDistance": "10", "entityDistanceScali
         "resourcePacks": json.dumps(["vanilla", f"file/{fa}"]),
         "incompatibleResourcePacks": json.dumps([f"file/{fa}"]),
         "key_gui.xaero_new_waypoint": "key.keyboard.n", "key_key.toms_storage.open_terminal": "key.keyboard.h",
-        "key_key.travelersbackpack.cycle_tool": "key.keyboard.v"}
+        "key_key.travelersbackpack.cycle_tool": "key.keyboard.v",
+        "key_key.heywiki.open": "key.keyboard.j", "key_key.heywiki.open_search": "key.keyboard.comma"}
 open(os.path.join(client, "options.txt"), "w").write("".join(f"{k}:{v}\n" for k, v in OPTS.items()))
 
 # server files

@@ -17,6 +17,8 @@ Shipped with the pack so everyone starts with the same layout. Vanilla keys are 
 | **C** | Zoom (hold, scroll to adjust) | Zoomify |
 | **K** | Toggle shaders | Iris |
 | **I** | Shader pack menu | Iris |
+| **J** | Open the wiki page for the item or block you're looking at | Hey Wiki |
+| **,** (comma) | Search the wikis | Hey Wiki |
 | **F7** | Light-level overlay | Lighty |
 | **F8** | Toggle light overlay mode | Lighty |
 | **Mouse 5** | Ping a location for your friends | Ping Wheel |
