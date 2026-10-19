@@ -16,7 +16,7 @@ Requires **Java 25**. Give the client 8 to 10 GB of RAM.
 
 ## Play
 
-Import `FluentMC-<version>.mrpack` into [Prism Launcher](https://prismlauncher.org) (Add Instance → Import) or the Modrinth App. Four shader packs are bundled and off by default: press **K** in game to toggle Complementary Unbound, or pick another under Video Settings → Shader Packs.
+Import `FluentMC-<version>.mrpack` into [Prism Launcher](https://prismlauncher.org) (Add Instance → Import) or the Modrinth App. Step-by-step for Prism, the Modrinth App and the vanilla launcher: [docs/INSTALL.md](docs/INSTALL.md). Four shader packs are bundled and off by default: press **K** in game to toggle Complementary Unbound, or pick another under Video Settings → Shader Packs.
 
 ## Host a server
 
